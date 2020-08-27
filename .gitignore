@@ -1,0 +1,6 @@
+.eggs/
+.project
+.pydevproject
+dist
+src/gtrends/__pycache__/
+GoogleTrends.egg-info/
