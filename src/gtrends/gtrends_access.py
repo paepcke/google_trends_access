@@ -25,6 +25,8 @@ class GTrendsAccessor(object):
     '''
     Demonstrates use of pytrends for access 
     Google Trends API via pytrends module.
+    To use, just run gtrends_access.py on the
+    command line.
     
     References:
     
@@ -36,15 +38,6 @@ class GTrendsAccessor(object):
         
         Rtrends Tutorial (for sometimes more detailed parameter descriptions):
             https://cran.r-project.org/web/packages/gtrendsR/gtrendsR.pdf
-            
-    Not included in these examples is method pytrends.get_historical_interest(),
-    which returns hourly granularity:
-            self.pytrend.get_historical_interest(self, 
-                                        keywords, year_start=2018, month_start=1,
-                                        day_start=1, hour_start=0, year_end=2018,
-                                        month_end=2, day_end=1, hour_end=0, cat=0,
-                                        geo='', gprop='', sleep=0):
-
 
     '''
 
@@ -71,6 +64,10 @@ class GTrendsAccessor(object):
         
         # Hourly interest:
         df = self.hourly_interest(kwd)
+        df_date_voting_isPartial = df.reset_index()
+        sys.stdout.write(f"\nFirst 10 hourly interest for '{kwd}':\n")
+        print(df_date_voting_isPartial.head(10))
+        # df_date_voting_isPartial.to_csv(path_or_buf="/tmp/foo.csv")
         
         # Related terms:
         df = self.related_terms(f'{kwd}')
@@ -134,8 +131,10 @@ class GTrendsAccessor(object):
                                 day_start=1, hour_start=0, year_end=2018,
                                 month_end=2, day_end=1, hour_end=0, cat=0,
                                 geo='', gprop='', sleep=0):
-                        
-        df = self.pytrend.get_historical_interest(self, 
+        
+        if type(keywords) != list:
+            keywords = [keywords]
+        df = self.pytrend.get_historical_interest(
                                 keywords, year_start=year_start, month_start=month_start,
                                 day_start=day_start, hour_start=hour_start, year_end=year_end,
                                 month_end=month_end, day_end=day_end, hour_end=hour_end,
